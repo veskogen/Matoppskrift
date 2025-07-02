@@ -1,0 +1,6 @@
+@BE_MatOppskrift_HostAddress = http://localhost:5042
+
+GET {{BE_MatOppskrift_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
