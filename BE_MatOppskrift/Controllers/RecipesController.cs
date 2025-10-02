@@ -21,54 +21,131 @@ namespace BE_MatOppskrift.Controllers
             _context = context;
         }
 
+
+
         // GET: api/recipes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Recipe>>> GetRecipes()
+        public async Task<ActionResult<IEnumerable<RecipeReadDto>>> GetRecipes()
         {
-            return await _context.Recipes
+            var recipes = await _context.Recipes
                 .Include(r => r.Ingredients) // Include related ingredients
                 .ToListAsync();
+
+            var recipeDtos = recipes.Select(r => new RecipeReadDto
+                {
+                Id = r.Id,
+                Name = r.Name,
+                Description = r.Description,
+                Instructions = r.Instructions,
+                PrepTimeMinutes = r.PrepTimeMinutes,
+                CookTimeMinutes = r.CookTimeMinutes,
+                Ingredients = r.Ingredients.Select(i => new IngredientReadDto
+                {
+                    Id = i.Id,
+                    Name = i.Name,
+                    Quantity = i.Quantity
+                }).ToList()
+                }).ToList();
+
+            return recipeDtos;
         }
+
+
+
+
         // GET: api/recipes/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<Recipe>> GetRecipe(int id)
+        public async Task<ActionResult<RecipeReadDto>> GetRecipe(int id)
         {
-            // Find a recipe by its ID, including related ingredients
             var recipe = await _context.Recipes
-                .Include(r => r.Ingredients) // Include related ingredients
+                .Include(r => r.Ingredients)
                 .FirstOrDefaultAsync(r => r.Id == id);
 
             if (recipe == null)
             {
-                return NotFound(); // Return 404 if recipe not found
+                return NotFound();
             }
 
-            return recipe; // Return 200 ok with the found recipe
+            var recipeReadDto = new RecipeReadDto
+            {
+                Id = recipe.Id,
+                Name = recipe.Name,
+                Description = recipe.Description,
+                Instructions = recipe.Instructions,
+                PrepTimeMinutes = recipe.PrepTimeMinutes,
+                CookTimeMinutes = recipe.CookTimeMinutes,
+                Ingredients = recipe.Ingredients.Select(i => new IngredientReadDto
+                {
+                    Id = i.Id,
+                    Name = i.Name,
+                    Quantity = i.Quantity
+                }).ToList()
+            };
+
+            return recipeReadDto;
         }
+
+
+
         // POST: api/recipes
         [HttpPost]
-        public async Task<ActionResult<Recipe>> PostRecipe(Recipe recipe)
+        public async Task<ActionResult<RecipeReadDto>> PostRecipe([FromBody] RecipeCreateDto recipeCreateDto)
         {
             // Simple validation (can be improved with Data Annotations/FluentValidation)
-            if (string.IsNullOrWhiteSpace(recipe.Name) || string.IsNullOrWhiteSpace(recipe.Instructions))
+    if (string.IsNullOrWhiteSpace(recipeCreateDto.Name) || string.IsNullOrWhiteSpace(recipeCreateDto.Instructions))
+    {
+        return BadRequest("Recipe name and instructions are required.");
+    }
+            var recipe = new Recipe
             {
-                return BadRequest("Recipe name and instructions are required.");
-            }
+                Name = recipeCreateDto.Name,
+                Description = recipeCreateDto.Description,
+                PrepTimeMinutes = recipeCreateDto.PrepTimeMinutes,
+                Instructions = recipeCreateDto.Instructions,
+                CookTimeMinutes = recipeCreateDto.CookTimeMinutes,
+                Ingredients = recipeCreateDto.Ingredients.Select(i => new Ingredient
+                {
+                    Name = i.Name,
+                    Quantity = i.Quantity
+                }).ToList()
+            };
             // Ensure ingredients are properly linked if sent in the payload
             if (recipe.Ingredients != null)
             {
                 foreach (var ingredient in recipe.Ingredients)
                 {
-                    ingredient.Recipe = recipe; // Link back to the recipe
+                    ingredient.RecipeId = recipe.Id; // Ensure foreign key is set
                 }
             }
 
             _context.Recipes.Add(recipe);
             await _context.SaveChangesAsync();
 
+            // Map Recipe to RecipeReadDto
+            var recipeReadDto = new RecipeReadDto
+            {
+                Id = recipe.Id,
+                Name = recipe.Name,
+                Description = recipe.Description,
+                Instructions = recipe.Instructions,
+                PrepTimeMinutes = recipe.PrepTimeMinutes,
+                CookTimeMinutes = recipe.CookTimeMinutes,
+                Ingredients = recipe.Ingredients.Select(i => new IngredientReadDto
+                {
+                    Id = i.Id,
+                    Name = i.Name,
+                    Quantity = i.Quantity
+                }).ToList()
+            };
+
             // Returns 201 Created with the location of the new resource
-            return CreatedAtAction("GetRecipe", new { id = recipe.Id }, recipe);
+            return CreatedAtAction("GetRecipe", new { id = recipe.Id }, recipeReadDto);
         }
+
+
+
+
+
         // PUT: api/recipes/{id}
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -103,6 +180,11 @@ namespace BE_MatOppskrift.Controllers
 
             return NoContent();
         }
+
+
+
+
+        
          // DELETE: api/Recipes/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRecipe(int id)

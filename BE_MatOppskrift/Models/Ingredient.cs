@@ -10,5 +10,6 @@ namespace BE_MatOppskrift.Models
         public int RecipeId { get; set; }
         // Navigation property for the recipe (many-to-one relationship)
         public Recipe Recipe { get; set; }
+        
     }
 }

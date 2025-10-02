@@ -1,0 +1,14 @@
+Fra tutorial/steg på Gemini: https://gemini.google.com/app/65e5bf9a24c15f49?hl=no
+
+# DONE - Fullføre seksjon om: Data transfer objects (DTOs) (sikkerhet rundt api dataoverføring )
+
+# Deretter: Validation
+
+#Prøvde å kjøre dotnet watch run og åpnet den genererte localhost siden på swagger, men metodene ser ikke ut til å returne noe innhold enda.
+##Har vi ikke laget noe innhold enda (i databasen)?
+
+# Deretter phase 4: Error handling, Logging, Authentication and Authorization, CORS, unit testing, versioning.
+# Deretter phase 5: Connecting to Your SvelteKit Frontend
+
+
+######OBS! Error 500 når man poster via swagger - "..cycle detected..". 

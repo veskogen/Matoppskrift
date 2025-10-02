@@ -15,7 +15,22 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<RecipeContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"))); // Read connection string from appsettings.json
 
+// Add CORS policy in ConfigureServices so that svelte frontend can access the c# backend
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSvelteKitFrontend",
+        builder => builder.WithOrigins("http://localhost:5173") // Replace with your SvelteKit dev server URL
+                          .AllowAnyMethod()
+                          .AllowAnyHeader());
+});
+
 var app = builder.Build();
+
+// Use CORS middleware AFTER app.UseRouting() and BEFORE app.UseAuthorization()
+app.UseRouting();
+app.UseCors("AllowSvelteKitFrontend"); // Apply the CORS policy
+app.UseAuthorization();
+app.MapControllers();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -27,5 +42,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
+
+
+
 
 
