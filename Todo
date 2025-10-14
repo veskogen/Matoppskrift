@@ -11,4 +11,10 @@ Fra tutorial/steg på Gemini: https://gemini.google.com/app/65e5bf9a24c15f49?hl=
 # Deretter phase 5: Connecting to Your SvelteKit Frontend
 
 
-######OBS! Error 500 når man poster via swagger - "..cycle detected..". 
+#Ignorer cycle error i swagger. POSTS kommer fram til databasen.
+
+FRONTEND:
+
+#Utførske det å Lage kategorier som begrenser matvarer etter hvilken kategori de tilhører.
+
+#Prøv å legge til en AI chatbot som du kan spørre om ting relatert til matvaretabellen (f.eks lag en oppskrift basert på matvarer i tabellen - burde følge kostholdsrådene for matvalg.)
