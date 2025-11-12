@@ -1,22 +1,32 @@
 Fra tutorial/steg på Gemini: https://gemini.google.com/app/65e5bf9a24c15f49?hl=no
 
+# Dette er et prosjekt som konsumerer både Matvaretabellen sin DB via API spørring og bruk av lokal DB. Hensikten kan være å ha en GUI side som viser Matvaretabellen og en annen GUI side som viser en egendefinert tabell (lokal DB) med favoritter valgt ut fra Matvaretabellen eller lignende.
+# Hensikt er å få praktisk anvendelse med eksterne API og anvendelse av backend mot lokal DB.
+
+-------------------
+BACKEND:
+
 # DONE - Fullføre seksjon om: Data transfer objects (DTOs) (sikkerhet rundt api dataoverføring )
 
-# Deretter: Validation
+#Deretter: Validation
 
-#Prøvde å kjøre dotnet watch run og åpnet den genererte localhost siden på swagger, men metodene ser ikke ut til å returne noe innhold enda.
-##Har vi ikke laget noe innhold enda (i databasen)?
+# Prøvde å kjøre dotnet watch run og åpnet den genererte localhost siden på swagger, men metodene ser ikke ut til å returne noe innhold enda.
+# --> Har vi ikke laget noe innhold enda (i databasen)?
+# ---> Ignorer cycle error i swagger. POSTS kommer fram til databasen.
 
-# Deretter phase 4: Error handling, Logging, Authentication and Authorization, CORS, unit testing, versioning.
-# Deretter phase 5: Connecting to Your SvelteKit Frontend
+#Deretter phase 4: Error handling, Logging, Authentication and Authorization, CORS, unit testing, versioning.
+#Deretter phase 5: Connecting to Your SvelteKit Frontend
 
 
-#Ignorer cycle error i swagger. POSTS kommer fram til databasen.
 
+---------------------
 FRONTEND:
 
-####CURRENT#### Holder på å utvide tabellen for matvarer med sorterings-funksjon etc. 
+# DONE Holder på å utvide tabellen for matvarer med sorterings-funksjon etc. 
+
+# Hvis vi skal ha en egen GUI side som skal vise en bruker sin egendefinerte tabell med (favoritt) matvarer plukket fra Matvaretabellen API så trenger vi å sette opp bruker input knapper for POST til vår backend API og en egen GUI side som henter data for denne tabellen.
 
 #Utførske det å Lage kategorier som begrenser matvarer etter hvilken kategori de tilhører.
+ - Trenger egne knapper for dette med funksjonalitet som avgrenser utvalget
 
 #Prøv å legge til en AI chatbot som du kan spørre om ting relatert til matvaretabellen (f.eks lag en oppskrift basert på matvarer i tabellen - burde følge kostholdsrådene for matvalg.)
