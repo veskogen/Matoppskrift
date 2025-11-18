@@ -24,9 +24,12 @@ FRONTEND:
 
 # DONE Holder på å utvide tabellen for matvarer med sorterings-funksjon etc. 
 
-# Hvis vi skal ha en egen GUI side som skal vise en bruker sin egendefinerte tabell med (favoritt) matvarer plukket fra Matvaretabellen API så trenger vi å sette opp bruker input knapper for POST til vår backend API og en egen GUI side som henter data for denne tabellen.
+# Hvis vi skal ha en egen GUI side som skal vise en bruker sin egendefinerte tabell med (favoritt) matvarer plukket fra Matvaretabellen API så trenger vi å sette opp bruker input knapper/sjekkboks for POST til vår backend API og en egen GUI side som henter data for denne tabellen.
+    --> Foreløbig gjort med svelte store som holder på data/input for sesjonen (refresh nettsiden fjerner data).
 
 #Utførske det å Lage kategorier som begrenser matvarer etter hvilken kategori de tilhører.
  - Trenger egne knapper for dette med funksjonalitet som avgrenser utvalget
 
 #Prøv å legge til en AI chatbot som du kan spørre om ting relatert til matvaretabellen (f.eks lag en oppskrift basert på matvarer i tabellen - burde følge kostholdsrådene for matvalg.)
+
+# HOLD: Forbedre innlasting av /foods. API returnerer hele datasettet og støtter ikke paginering. Må i såfall gjøre noe kalt virtualization men det kan være en del arbeid - venter foreløbig med dette.
